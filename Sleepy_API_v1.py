@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 import uvicorn
 from typing import Dict
+import os
 
 RED     = "\033[91m"
 GREEN   = "\033[92m"
@@ -112,7 +113,9 @@ def get_stats():
 
 
 
-
+@app.get("/")
+def root():
+    return {"status": "ok"}
 
 @app.get("/-------------END-POINTS---------------") # Litterly just a seprator for printing endpoints
 def stfu():
@@ -218,8 +221,16 @@ for route in app.routes:
     hi = ["/openapi.json", "/docs", "/docs/oauth2-redirect", "/redoc"]
     if route.path not in hi:
         print("http://127.0.0.1:8000"+route.path)
+
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
+
+"""
 if __name__ == "__main__":
     uvicorn.run("Sleepy_API_v1:app", host="0.0.0.0", port=8000, reload=True)
+"""
 
 # Querei: http://127.0.0.1:8000/update-profit?value=1036.39871243?Aname=hiiii
 # Get: http://127.0.0.1:8000/total-profit
