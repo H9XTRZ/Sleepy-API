@@ -219,7 +219,7 @@ for route in app.routes:
     if route.path not in hi:
         print("http://127.0.0.1:8000"+route.path)
 if __name__ == "__main__":
-    uvicorn.run("Sleepy_API_v1:app", host="127.0.0.1", port=8000, reload=False)
+    uvicorn.run("Sleepy_API_v1:app", host="0.0.0.0", port=8000, reload=True)
 
 # Querei: http://127.0.0.1:8000/update-profit?value=1036.39871243?Aname=hiiii
 # Get: http://127.0.0.1:8000/total-profit
