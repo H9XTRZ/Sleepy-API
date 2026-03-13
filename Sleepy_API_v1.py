@@ -169,7 +169,7 @@ def update_profit(value: float, Aname: str):
 @app.post("/load-agents")
 def load_agents(payload: Dict):
     global agents, total_agents
-    agents.update(payload)
+    agents = payload
     total_agents = len(agents["agents"])
     return {"status": "updated", "agents": agents}
 
