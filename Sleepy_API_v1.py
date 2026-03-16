@@ -243,6 +243,12 @@ def get_logs():
     return logs
 
 @app.get("/clear")
+def clear_agents():
+    global agents
+    agents.clear()
+    return {"status": "agents cleared"}
+
+
 
 for route in app.routes:
     hi = ["/openapi.json", "/docs", "/docs/oauth2-redirect", "/redoc"]
