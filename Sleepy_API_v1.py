@@ -157,6 +157,26 @@ def update_profit(value: float, Aname: str):
     global total_profit, pause_trading_v
     update_paused()
     total_profit += value
+    """
+            AGENTS DICT
+    {'agents': {'jabodie': {'id': 'sebhjke73a', 'profit': 1.209314873549628e+20}, 
+    'hiiii': {'id': 'hiuereirg789py34', 'profit': 0.0}, 
+    'master debator': {'id': 'wefilgy2236767676767676wefhjoi7hdoi8', 'profit': 0.0}, 
+    'osmegma bin rizzdon': {'id': 'wefilgy2236767676767676wefhjoi7hdoi8', 'profit': 0.0}, 
+    'happpapa': {'id': 'wefilgy2236767676767676wefhjoi7hdoi8', 'profit': 0.0}}}
+    
+    
+    """
+    all_agents = agents["agents"]
+    current_agent_info = all_agents[Aname]
+    current_profit = current_agent_info["profit"]
+    new_profit = current_profit + value
+    # Update current agent dict
+    current_agent_info.update({'profit': new_profit})
+    all_agents.update(current_agent_info)
+    agents.update(all_agents)
+
+
     if pause_trading_v:
         if Aname not in paused_agents:
             paused_agents.append(Aname)
@@ -204,18 +224,25 @@ def get_agents():
 
 
 @app.get("/update-logs")
-def update_logs(agent_name: str, action: str):
+def update_logs(agent_name: str, action: str, profit: str):
     global logs, E_stop_v, paused_agents
     if len(logs) > 100:    # to keep things fresh ;]
         logs = []
-    logs.append(f"{agent_name}: {action}")
-    recieved = get_r()
-    return recieved
-
+    if "None" not in profit:
+        logs.append(f"{agent_name}: {action}")
+        recieved = get_r()
+        return recieved
+    else:
+        logs.append(f"{agent_name}: {action} --->")
+        recieved = get_r()
+        return recieved
+    
 @app.get("/get-logs")
 def get_logs():
     global logs
     return logs
+
+@app.get("/clear")
 
 for route in app.routes:
     hi = ["/openapi.json", "/docs", "/docs/oauth2-redirect", "/redoc"]
