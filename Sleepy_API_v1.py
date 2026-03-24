@@ -81,6 +81,7 @@ adding_agent = False
 agents = {}     # Format {"name" : $$$}
 agent_to_add = {}
 logs = []
+active_agents = []
 
 pause_status = ""
 total_agents = 0
@@ -195,7 +196,7 @@ def load_agents(payload: Dict):
 
 
 
-@app.get("/add-agent")
+@app.get("/add-agent")  # For creating new agents
 def add_agent(agent_name = str, id = str):
     global adding_agent, agent_to_add
     if agent_name not in agents["agents"]:
@@ -224,18 +225,15 @@ def get_agents():
 
 
 @app.get("/update-logs")
-def update_logs(agent_name: str, action: str, profit: str):
+def update_logs(log: str):
     global logs, E_stop_v, paused_agents
     if len(logs) > 100:    # to keep things fresh ;]
         logs = []
-    if "None" not in profit:
-        logs.append(f"{agent_name}: {action}")
-        recieved = get_r()
-        return recieved
-    else:
-        logs.append(f"{agent_name}: {action} --->")
-        recieved = get_r()
-        return recieved
+
+    
+    logs.append(log)
+    recieved = get_r()
+    return recieved
     
 @app.get("/get-logs")
 def get_logs():
