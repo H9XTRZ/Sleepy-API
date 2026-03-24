@@ -170,7 +170,7 @@ def update_profit(value: float, Aname: str):
     """
     all_agents = agents
     current_agent_info = all_agents[Aname]
-    current_profit = current_agent_info["profit"]
+    current_profit = current_agent_info["Profit"]
     new_profit = current_profit + value
     # Update current agent dict
     current_agent_info.update({'profit': new_profit})
