@@ -155,7 +155,7 @@ def pause_traiding():
 # update list
 @app.get("/update-profit")
 def update_profit(value: float, Aname: str):
-    global total_profit, pause_trading_v
+    global total_profit, pause_trading_v, agents
     update_paused()
     total_profit += value
     """
