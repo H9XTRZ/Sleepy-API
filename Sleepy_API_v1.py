@@ -168,7 +168,7 @@ def update_profit(value: float, Aname: str):
     
     
     """
-    all_agents = agents["agents"]
+    all_agents = agents
     current_agent_info = all_agents[Aname]
     current_profit = current_agent_info["profit"]
     new_profit = current_profit + value
@@ -191,7 +191,7 @@ def update_profit(value: float, Aname: str):
 def load_agents(payload: Dict):
     global agents, total_agents
     agents = payload
-    total_agents = len(agents["agents"])
+    total_agents = len(agents)
     return {"status": "updated", "agents": agents}
 
 
@@ -199,8 +199,11 @@ def load_agents(payload: Dict):
 @app.get("/add-agent")  # For creating new agents
 def add_agent(agent_name = str, id = str):
     global adding_agent, agent_to_add
-    if agent_name not in agents["agents"]:
-        agent_to_add[agent_name] = id
+    if agent_name not in agents:
+        agent_to_add[agent_name] = {
+            "id": id,
+            "profit": 0.0
+        }
         adding_agent = True
         stats = get_stats()
         return stats
