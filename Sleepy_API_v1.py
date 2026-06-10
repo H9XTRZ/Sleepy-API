@@ -229,11 +229,7 @@ def get_agents():
 
 @app.get("/update-logs")
 def update_logs(log: str):
-    global logs, E_stop_v, paused_agents
-    if len(logs) > 100:    # to keep things fresh ;]
-        logs = []
-
-    
+    global logs, E_stop_v, paused_agents    
     logs.append(log)
     recieved = get_r()
     return recieved
@@ -243,7 +239,13 @@ def get_logs():
     global logs
     return logs
 
-@app.get("/clear")
+@app.get("/clear-logs")
+def clear_logs():
+    global logs
+    logs = []
+    return {"status": "logs cleared"}
+
+@app.get("/clear-agents")
 def clear_agents():
     global agents
     agents.clear()
@@ -256,14 +258,16 @@ for route in app.routes:
     if route.path not in hi:
         print("http://127.0.0.1:8000"+route.path)
 
-
+# Deploy code:
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8000))
     uvicorn.run(app, host="0.0.0.0", port=port)
 
+
 """
+# Testing code:
 if __name__ == "__main__":
-    uvicorn.run("Sleepy_API_v1:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("Sleepy_API_v1:app", host="127.0.0.1", port=8000, reload=True)
 """
 
 # Querei: http://127.0.0.1:8000/update-profit?value=1036.39871243?Aname=hiiii
